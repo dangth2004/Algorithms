@@ -37,22 +37,15 @@ public interface MyList<E> {
     LinkedListNode<E> last();
 
     /**
-     * Adds a new node with the specified value at the beginning of the list.
-     *
-     * @param value the value to be added to the list
-     */
-    void addFirst(E value);
-
-    /**
      * Adds a new node with the specified value at the end of the list.
      *
      * @param value the value to be added to the list
      */
-    void addLast(E value);
+    void add(E value);
 
     /**
      * Inserts a new node with the specified value at the given index.
-     * Index starts from 1.
+     * Index starts from 0.
      *
      * @param value the value to be inserted
      * @param index the index at which the new node is to be inserted
@@ -70,7 +63,7 @@ public interface MyList<E> {
 
     /**
      * Returns the value of the node at the specified index.
-     * Index starts from 1.
+     * Index starts from 0.
      *
      * @param index the index of the node whose value is to be returned
      * @return the value of the node at the specified index
@@ -79,18 +72,8 @@ public interface MyList<E> {
     E get(int index);
 
     /**
-     * Removes the first node of the list.
-     */
-    void removeFirst();
-
-    /**
-     * Removes the last node of the list.
-     */
-    void removeLast();
-
-    /**
      * Removes the node at the specified index.
-     * Index starts from 1.
+     * Index starts from 0.
      *
      * @param index the index of the node to be removed
      * @throws IndexOutOfBoundsException if the index is out of range

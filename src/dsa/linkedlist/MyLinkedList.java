@@ -64,35 +64,17 @@ public class MyLinkedList<E> implements MyList<E> {
     }
 
     /**
-     * Adds a new node with the specified value at the beginning of the list.
-     *
-     * @param value the value to be added to the list
-     */
-    @Override
-    public void addFirst(E value) {
-        if (isEmpty()) {
-            this.head = new LinkedListNode<>(value);
-        } else {
-            LinkedListNode<E> node = new LinkedListNode<>(value);
-            node.setNext(this.head);
-            this.head.setPrevious(node);
-            this.head = node;
-        }
-        this.size++;
-    }
-
-    /**
      * Adds a new node with the specified value at the end of the list.
      *
-     * @param value the value to be added to the list
+     * @param key the value to be added to the list
      */
     @Override
-    public void addLast(E value) {
+    public void add(E key) {
         if (isEmpty()) {
-            this.head = new LinkedListNode<>(value);
+            this.head = new LinkedListNode<>(key);
         } else {
             LinkedListNode<E> node = last();
-            LinkedListNode<E> newNode = new LinkedListNode<>(value);
+            LinkedListNode<E> newNode = new LinkedListNode<>(key);
             node.setNext(newNode);
             newNode.setPrevious(node);
         }
@@ -101,23 +83,37 @@ public class MyLinkedList<E> implements MyList<E> {
 
     /**
      * Inserts a new node with the specified value at the given index.
-     * Index starts from 1.
+     * Index starts from 0.
      *
-     * @param value the value to be inserted
+     * @param key   the value to be inserted
      * @param index the index at which the new node is to be inserted
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     @Override
-    public void insert(E value, int index) {
+    public void insert(E key, int index) {
         try {
-            if (index - 1 == 0) {
-                addFirst(value);
-            } else if (index - 1 == this.size) {
-                addLast(value);
+            if (isEmpty()) {
+                this.head = new LinkedListNode<>(key);
+                this.size++;
+                return;
+            }
+
+            if (index == 0) {
+                // Insert a new node to the first of the list
+                LinkedListNode<E> node = new LinkedListNode<>(key);
+                node.setNext(this.head);
+                this.head.setPrevious(node);
+                this.head = node;
+            } else if (index == this.size) {
+                // Insert a new node to the last of the list
+                LinkedListNode<E> node = last();
+                LinkedListNode<E> newNode = new LinkedListNode<>(key);
+                node.setNext(newNode);
+                newNode.setPrevious(node);
             } else {
-                LinkedListNode<E> prevNode = nodeAtIndex(index - 2);
+                LinkedListNode<E> prevNode = nodeAtIndex(index - 1);
                 LinkedListNode<E> nextNode = prevNode.getNext();
-                LinkedListNode<E> newNode = new LinkedListNode<>(value, nextNode, prevNode);
+                LinkedListNode<E> newNode = new LinkedListNode<>(key, nextNode, prevNode);
                 nextNode.setPrevious(newNode);
                 prevNode.setNext(newNode);
             }
@@ -130,13 +126,13 @@ public class MyLinkedList<E> implements MyList<E> {
     /**
      * Searches for the node containing the specified value.
      *
-     * @param value the value to search for
+     * @param key the value to search for
      * @return the node containing the specified value, or null if not found
      */
     @Override
-    public LinkedListNode<E> search(E value) {
+    public LinkedListNode<E> search(E key) {
         LinkedListNode<E> node = this.head;
-        while (node != null && node.getKey() != value) {
+        while (node != null && node.getKey() != key) {
             node = node.getNext();
         }
         return node;
@@ -144,7 +140,7 @@ public class MyLinkedList<E> implements MyList<E> {
 
     /**
      * Returns the value of the node at the specified index.
-     * Index starts from 1.
+     * Index starts from 0.
      *
      * @param index the index of the node whose value is to be returned
      * @return the value of the node at the specified index
@@ -153,7 +149,7 @@ public class MyLinkedList<E> implements MyList<E> {
     @Override
     public E get(int index) {
         try {
-            return nodeAtIndex(index - 1).getKey();
+            return nodeAtIndex(index).getKey();
         } catch (Exception e) {
             throw new IndexOutOfBoundsException("Invalid index. Index may" +
                     " smaller than 0 or greater than the size of the list");
@@ -161,51 +157,8 @@ public class MyLinkedList<E> implements MyList<E> {
     }
 
     /**
-     * Removes the first node of the list.
-     */
-    @Override
-    public void removeFirst() {
-        if (isEmpty()) {
-            System.out.println("The list is already empty");
-        } else if (this.size == 1) {
-            this.head = null;
-            this.size--;
-            System.out.println("The list is empty");
-        } else {
-            LinkedListNode<E> newHead = this.head.getNext();
-            this.head.setNext(null);
-            newHead.setPrevious(null);
-            this.head = newHead;
-            this.size--;
-        }
-    }
-
-    /**
-     * Removes the last node of the list.
-     */
-    @Override
-    public void removeLast() {
-        if (isEmpty()) {
-            System.out.println("The list is already empty");
-        } else if (this.size == 1) {
-            this.head = null;
-            this.size--;
-            System.out.println("The list is empty");
-        } else {
-            LinkedListNode<E> node = this.head;
-            while (node.getNext().getNext() != null) {
-                node = node.getNext();
-            }
-            LinkedListNode<E> lastNode = node.getNext();
-            node.setNext(null);
-            lastNode.setPrevious(null);
-            this.size--;
-        }
-    }
-
-    /**
      * Removes the node at the specified index.
-     * Index starts from 1.
+     * Index starts from 0.
      *
      * @param index the index of the node to be removed
      * @throws IndexOutOfBoundsException if the index is out of range
@@ -213,27 +166,38 @@ public class MyLinkedList<E> implements MyList<E> {
     @Override
     public void remove(int index) {
         try {
-            if (index - 1 <= 0) {
-                removeFirst();
-            } else if (index >= this.size) {
-                removeLast();
+            if (isEmpty()) {
+                System.out.println("The list is already empty");
+            } else if (this.size == 1) {
+                this.head = null;
+                this.size--;
+                System.out.println("The list is empty");
             } else {
-                if (isEmpty()) {
-                    System.out.println("The list is already empty");
-                } else if (this.size == 1) {
-                    this.head = null;
-                    this.size--;
-                    System.out.println("The list is empty");
+                if (index == 0) {
+                    // Remove the first node
+                    LinkedListNode<E> newHead = this.head.getNext();
+                    this.head.setNext(null);
+                    newHead.setPrevious(null);
+                    this.head = newHead;
+                } else if (index + 1 == this.size) {
+                    // Remove the last node
+                    LinkedListNode<E> node = this.head;
+                    while (node.getNext().getNext() != null) {
+                        node = node.getNext();
+                    }
+                    LinkedListNode<E> lastNode = node.getNext();
+                    node.setNext(null);
+                    lastNode.setPrevious(null);
                 } else {
-                    LinkedListNode<E> node = nodeAtIndex(index - 1);
+                    LinkedListNode<E> node = nodeAtIndex(index);
                     LinkedListNode<E> prevNode = node.getPrevious();
                     LinkedListNode<E> nextNode = node.getNext();
                     node.setNext(null);
                     node.setPrevious(null);
                     prevNode.setNext(nextNode);
                     nextNode.setPrevious(prevNode);
-                    this.size--;
                 }
+                this.size--;
             }
         } catch (Exception e) {
             throw new IndexOutOfBoundsException("Invalid index.");
