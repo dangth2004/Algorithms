@@ -4,7 +4,7 @@ package dsa.linkedlist;
  * @param <E> the type of elements in this list
  * @author dangth2004
  * @since 2024-07-25
- *
+ * <p>
  * Implementation of a doubly linked list.
  */
 
@@ -56,6 +56,10 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public LinkedListNode<E> last() {
+        if (isEmpty()) {
+            return null;
+        }
+
         LinkedListNode<E> node = this.head;
         while (node.getNext() != null) {
             node = node.getNext();
@@ -91,36 +95,28 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void insert(E key, int index) {
-        try {
-            if (isEmpty()) {
-                this.head = new LinkedListNode<>(key);
-                this.size++;
-                return;
-            }
-
-            if (index == 0) {
-                // Insert a new node to the first of the list
-                LinkedListNode<E> node = new LinkedListNode<>(key);
-                node.setNext(this.head);
-                this.head.setPrevious(node);
-                this.head = node;
-            } else if (index == this.size) {
-                // Insert a new node to the last of the list
-                LinkedListNode<E> node = last();
-                LinkedListNode<E> newNode = new LinkedListNode<>(key);
-                node.setNext(newNode);
-                newNode.setPrevious(node);
-            } else {
-                LinkedListNode<E> prevNode = nodeAtIndex(index - 1);
-                LinkedListNode<E> nextNode = prevNode.getNext();
-                LinkedListNode<E> newNode = new LinkedListNode<>(key, nextNode, prevNode);
-                nextNode.setPrevious(newNode);
-                prevNode.setNext(newNode);
-            }
-            this.size++;
-        } catch (Exception e) {
+        if (index < 0 || index > this.size) {
             throw new IndexOutOfBoundsException("Invalid index");
         }
+        if (index == 0) {
+            LinkedListNode<E> newNode = new LinkedListNode<>(key);
+            newNode.setNext(this.head);
+            if (this.head != null) {
+                this.head.setPrevious(newNode);
+            }
+            this.head = newNode;
+        } else {
+            LinkedListNode<E> prevNode = nodeAtIndex(index - 1);
+            LinkedListNode<E> nextNode = prevNode.getNext();
+            LinkedListNode<E> newNode = new LinkedListNode<>(key);
+            newNode.setNext(nextNode);
+            newNode.setPrevious(prevNode);
+            prevNode.setNext(newNode);
+            if (nextNode != null) {
+                nextNode.setPrevious(newNode);
+            }
+        }
+        this.size++;
     }
 
     /**
@@ -132,7 +128,7 @@ public class MyLinkedList<E> implements MyList<E> {
     @Override
     public LinkedListNode<E> search(E key) {
         LinkedListNode<E> node = this.head;
-        while (node != null && node.getKey() != key) {
+        while (node != null && !node.getKey().equals(key)) {
             node = node.getNext();
         }
         return node;
@@ -148,12 +144,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public E get(int index) {
-        try {
-            return nodeAtIndex(index).getKey();
-        } catch (Exception e) {
-            throw new IndexOutOfBoundsException("Invalid index. Index may" +
-                    " smaller than 0 or greater than the size of the list");
-        }
+        return nodeAtIndex(index).getKey();
     }
 
     /**
@@ -165,43 +156,23 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void remove(int index) {
-        try {
-            if (isEmpty()) {
-                System.out.println("The list is already empty");
-            } else if (this.size == 1) {
-                this.head = null;
-                this.size--;
-                System.out.println("The list is empty");
-            } else {
-                if (index == 0) {
-                    // Remove the first node
-                    LinkedListNode<E> newHead = this.head.getNext();
-                    this.head.setNext(null);
-                    newHead.setPrevious(null);
-                    this.head = newHead;
-                } else if (index + 1 == this.size) {
-                    // Remove the last node
-                    LinkedListNode<E> node = this.head;
-                    while (node.getNext().getNext() != null) {
-                        node = node.getNext();
-                    }
-                    LinkedListNode<E> lastNode = node.getNext();
-                    node.setNext(null);
-                    lastNode.setPrevious(null);
-                } else {
-                    LinkedListNode<E> node = nodeAtIndex(index);
-                    LinkedListNode<E> prevNode = node.getPrevious();
-                    LinkedListNode<E> nextNode = node.getNext();
-                    node.setNext(null);
-                    node.setPrevious(null);
-                    prevNode.setNext(nextNode);
-                    nextNode.setPrevious(prevNode);
-                }
-                this.size--;
+        checkBoundaries(index);
+
+        if (index == 0) {
+            this.head = this.head.getNext();
+            if (this.head != null) {
+                this.head.setPrevious(null);
             }
-        } catch (Exception e) {
-            throw new IndexOutOfBoundsException("Invalid index.");
+        } else {
+            LinkedListNode<E> node = nodeAtIndex(index);
+            LinkedListNode<E> prevNode = node.getPrevious();
+            LinkedListNode<E> nextNode = node.getNext();
+            prevNode.setNext(nextNode);
+            if (nextNode != null) {
+                nextNode.setPrevious(prevNode);
+            }
         }
+        this.size--;
     }
 
     /**
@@ -209,18 +180,18 @@ public class MyLinkedList<E> implements MyList<E> {
      *
      * @return a string representation of the list
      */
+    @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
         LinkedListNode<E> node = this.head;
         while (node != null) {
-            if (node.getNext() == null) {
-                string.append(node.getKey());
-            } else {
-                string.append(node.getKey()).append(" -> ");
+            string.append(node.getKey());
+            if (node.getNext() != null) {
+                string.append(" -> ");
             }
             node = node.getNext();
         }
-        return String.valueOf(string);
+        return string.toString();
     }
 
     /**
@@ -232,14 +203,25 @@ public class MyLinkedList<E> implements MyList<E> {
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     private LinkedListNode<E> nodeAtIndex(int index) {
-        try {
-            LinkedListNode<E> node = this.head;
-            for (int i = 0; i < index; i++) {
-                node = node.getNext();
-            }
-            return node;
-        } catch (Exception e) {
-            throw new IndexOutOfBoundsException("Invalid index.");
+        checkBoundaries(index);
+
+        LinkedListNode<E> node = this.head;
+        for (int i = 0; i < index; i++) {
+            node = node.getNext();
+        }
+        return node;
+    }
+
+
+    /**
+     * Checks if the index is within the valid range.
+     *
+     * @param index the index to check
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
+    private void checkBoundaries(int index) {
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException("Invalid index");
         }
     }
 }
