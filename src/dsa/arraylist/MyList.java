@@ -1,5 +1,12 @@
 package dsa.arraylist;
 
+/**
+ * Interface for a generic array list.
+ *
+ * @param <E> the type of elements in this list
+ * @author dangth2004
+ * @since 2024-07-30
+ */
 public interface MyList<E> {
     /**
      * Returns the number of elements in this list.
