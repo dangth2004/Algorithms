@@ -10,13 +10,14 @@ package dsa.linkedlist;
 
 public class MyLinkedList<E> implements MyList<E> {
     private LinkedListNode<E> head;
-    private int size = 0;
+    private int size;
 
     /**
      * Constructs an empty list.
      */
     public MyLinkedList() {
-
+        this.head = null;
+        this.size = 0;
     }
 
     /**
