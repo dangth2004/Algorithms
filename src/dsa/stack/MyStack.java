@@ -1,9 +1,11 @@
 package dsa.stack;
 
 /**
- * An interface for a stack data structure.
- *
  * @param <E> the type of elements in this stack
+ * @author dangth2004
+ * @since 2024-07-30
+ * <p>
+ * An interface for a stack data structure.
  */
 public interface MyStack<E> {
 

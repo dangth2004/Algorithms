@@ -6,9 +6,11 @@ import java.util.List;
 
 
 /**
- * Implementation of a stack using a linked list.
- *
  * @param <E> the type of elements in this stack
+ * @author dangth2004
+ * @since 2024-07-30
+ * <p>
+ * Implementation of a stack using a linked list.
  */
 public class MyLinkedListStack<E> implements MyStack<E> {
     private List<E> list;

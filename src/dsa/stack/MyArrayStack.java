@@ -1,14 +1,22 @@
 package dsa.stack;
 
-import dsa.arraylist.MyArrayList;
-
 import java.util.EmptyStackException;
 
+/**
+ * @param <E> the type of elements in this stack
+ * @author dangth2004
+ * @since 2024-07-30
+ * <p>
+ * Implementation of a stack using a linked list.
+ */
 public class MyArrayStack<E> implements MyStack<E> {
     private static final int DEFAULT_CAPACITY = 10;
     private E[] array;
     private int size;
 
+    /**
+     * Constructs an empty stack.
+     */
     public MyArrayStack() {
         this.array = (E[]) new Object[DEFAULT_CAPACITY];
         this.size = 0;
