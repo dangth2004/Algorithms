@@ -115,7 +115,8 @@ public class MyArrayList<E> implements MyList<E> {
      *
      * @param key   the element to be stored at the specified position
      * @param index the index of the element to replace
-     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size())
+     * @throws IndexOutOfBoundsException if the index is out of range
+     * (index < 0 || index >= size())
      */
     @Override
     public void set(E key, int index) {
@@ -138,7 +139,8 @@ public class MyArrayList<E> implements MyList<E> {
         } else {
             E[] newArray = (E[]) new Object[this.size - 1];
             System.arraycopy(this.array, 0, newArray, 0, index);
-            System.arraycopy(this.array, index + 1, newArray, index, newArray.length - index);
+            System.arraycopy(this.array, index + 1, newArray,
+                    index, newArray.length - index);
             this.array = newArray;
             this.size--;
         }
