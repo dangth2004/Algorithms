@@ -148,6 +148,19 @@ public class MyLinkedList<E> implements MyList<E> {
     }
 
     /**
+     * Replaces the element at the specified position in this list with the specified element.
+     *
+     * @param key   the element to be stored at the specified position
+     * @param index the index of the element to replace
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size())
+     */
+    @Override
+    public void set(E key, int index) {
+        checkBoundaries(index);
+        nodeAtIndex(index).setKey(key);
+    }
+
+    /**
      * Removes the node at the specified index.
      * Index starts from 0.
      *
