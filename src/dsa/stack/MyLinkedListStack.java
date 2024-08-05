@@ -13,7 +13,7 @@ import java.util.List;
  * Implementation of a stack using a linked list.
  */
 public class MyLinkedListStack<E> implements MyStack<E> {
-    private List<E> list;
+    private final List<E> list;
 
     /**
      * Constructs an empty stack.
@@ -81,6 +81,7 @@ public class MyLinkedListStack<E> implements MyStack<E> {
      *
      * @return a string representation of the stack
      */
+    @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
         for (int index = 0; index < list.size(); index++) {

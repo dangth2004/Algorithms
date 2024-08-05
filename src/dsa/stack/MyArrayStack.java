@@ -65,6 +65,10 @@ public class MyArrayStack<E> implements MyStack<E> {
      */
     @Override
     public E pop() {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+
         this.size--;
         E top = this.array[this.size];
         this.array[this.size] = null;
@@ -79,9 +83,11 @@ public class MyArrayStack<E> implements MyStack<E> {
      */
     @Override
     public E top() {
-        E top = this.array[this.size - 1];
-        this.array[this.size - 1] = null;
-        return top;
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+
+        return this.array[this.size - 1];
     }
 
     /**
@@ -89,6 +95,7 @@ public class MyArrayStack<E> implements MyStack<E> {
      *
      * @return a string representation of the stack
      */
+    @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
         for (int index = 0; index < this.size; index++) {
@@ -101,10 +108,10 @@ public class MyArrayStack<E> implements MyStack<E> {
     }
 
     /**
-     * Doubles the capacity of the array list.
+     * Doubles the capacity of the array when it is full.
      */
     private void enlarge() {
-        E[] newArray = (E[]) new Object[2 * this.size];
+        E[] newArray = (E[]) new Object[2 * this.array.length];
         System.arraycopy(array, 0, newArray, 0, this.size);
         this.array = newArray;
     }

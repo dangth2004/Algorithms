@@ -151,6 +151,7 @@ public class MyArrayList<E> implements MyList<E> {
      *
      * @return a string representation of the list
      */
+    @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
         for (int index = 0; index < this.size; index++) {
@@ -163,10 +164,10 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     /**
-     * Doubles the capacity of the array list.
+     * Doubles the capacity of the array when it is full.
      */
     private void enlarge() {
-        E[] newArray = (E[]) new Object[2 * this.size];
+        E[] newArray = (E[]) new Object[2 * this.array.length];
         System.arraycopy(array, 0, newArray, 0, this.size);
         this.array = newArray;
     }
