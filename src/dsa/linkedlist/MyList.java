@@ -47,7 +47,7 @@ public interface MyList<E> {
      * Inserts a new node with the specified value at the given index.
      * Index starts from 0.
      *
-     * @param key the value to be inserted
+     * @param key   the value to be inserted
      * @param index the index at which the new node is to be inserted
      * @throws IndexOutOfBoundsException if the index is out of range
      */

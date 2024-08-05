@@ -2,6 +2,7 @@ package dsa.queue;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 /**
  * Implementation of a queue using a linked list.
@@ -42,11 +43,16 @@ public class MyLinkedListQueue<E> implements MyQueue<E> {
     /**
      * Returns the element at the front of the queue without removing it.
      *
-     * @return the element at the front of the queue, or null if the queue is empty
+     * @return the element at the front of the queue
+     * @throws NoSuchElementException if the queue is empty
      */
     @Override
     public E first() {
-        return this.deque.peekFirst();
+        E element = this.deque.peekFirst();
+        if (element == null) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+        return element;
     }
 
     /**
@@ -62,11 +68,16 @@ public class MyLinkedListQueue<E> implements MyQueue<E> {
     /**
      * Removes and returns the element at the front of the queue.
      *
-     * @return the element at the front of the queue, or null if the queue is empty
+     * @return the element at the front of the queue
+     * @throws NoSuchElementException if the queue is empty
      */
     @Override
     public E dequeue() {
-        return this.deque.pollFirst();
+        E element = this.deque.pollFirst();
+        if (element == null) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+        return element;
     }
 
     /**
