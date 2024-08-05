@@ -5,11 +5,14 @@ public class MyArrayQueue<E> implements MyQueue<E> {
     private E[] array;
     private int size;
     private int first;
+    private int last;
 
+    @SuppressWarnings("unchecked")
     public MyArrayQueue() {
         this.array = (E[]) new Object[DEFAULT_CAPACITY];
         this.size = 0;
         this.first = 0;
+        this.last = 0;
     }
 
     /**
@@ -17,10 +20,13 @@ public class MyArrayQueue<E> implements MyQueue<E> {
      */
     private void enlarge() {
         E[] newArray = (E[]) new Object[2 * this.array.length];
-        System.arraycopy(this.array, 0, newArray, 0, this.size);
+        for (int i = 0; i < size; i++) {
+            newArray[i] = array[(first + i) % array.length];
+        }
         this.array = newArray;
+        this.first = 0;
+        this.last = size;
     }
-
 
     /**
      * Checks if the queue is empty.
@@ -45,10 +51,14 @@ public class MyArrayQueue<E> implements MyQueue<E> {
     /**
      * Returns the element at the front of the queue without removing it.
      *
-     * @return the element at the front of the queue, or null if the queue is empty
+     * @return the element at the front of the queue
+     * @throws java.util.NoSuchElementException if the queue is empty
      */
     @Override
     public E first() {
+        if (isEmpty()) {
+            throw new java.util.NoSuchElementException("Queue is empty");
+        }
         return this.array[this.first];
     }
 
@@ -62,22 +72,27 @@ public class MyArrayQueue<E> implements MyQueue<E> {
         if (this.size == this.array.length) {
             enlarge();
         }
-        this.array[this.size] = value;
+        this.array[this.last] = value;
+        this.last = (this.last + 1) % this.array.length;
         this.size++;
     }
 
     /**
      * Removes and returns the element at the front of the queue.
      *
-     * @return the element at the front of the queue, or null if the queue is empty
+     * @return the element at the front of the queue
+     * @throws java.util.NoSuchElementException if the queue is empty
      */
     @Override
     public E dequeue() {
-        E first = this.array[this.first];
-        this.size--;
+        if (isEmpty()) {
+            throw new java.util.NoSuchElementException("Queue is empty");
+        }
+        E element = this.array[this.first];
         this.array[this.first] = null;
-        this.first++;
-        return first;
+        this.first = (this.first + 1) % this.array.length;
+        this.size--;
+        return element;
     }
 
     /**
@@ -88,9 +103,9 @@ public class MyArrayQueue<E> implements MyQueue<E> {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
-        for (int index = this.first; index < this.size + this.first; index++) {
-            string.append(this.array[index]);
-            if (index != this.size + this.first - 1) {
+        for (int index = 0; index < size; index++) {
+            string.append(array[(first + index) % array.length]);
+            if (index != size - 1) {
                 string.append(" -> ");
             }
         }
