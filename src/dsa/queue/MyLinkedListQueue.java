@@ -1,23 +1,22 @@
 package dsa.queue;
 
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
- * @param <E> the type of elements in this stack
- * @author dangth2004
- * @since 2024-08-06
- * <p>
  * Implementation of a queue using a linked list.
+ *
+ * @param <E> the type of elements in this queue
+ * @since 2024-08-06
  */
 public class MyLinkedListQueue<E> implements MyQueue<E> {
-    private final List<E> list;
+    private final Deque<E> deque;
 
     /**
-     * Constructs an empty stack.
+     * Constructs an empty queue.
      */
     public MyLinkedListQueue() {
-        this.list = new LinkedList<>();
+        this.deque = new LinkedList<>();
     }
 
     /**
@@ -27,7 +26,7 @@ public class MyLinkedListQueue<E> implements MyQueue<E> {
      */
     @Override
     public boolean isEmpty() {
-        return this.list.isEmpty();
+        return this.deque.isEmpty();
     }
 
     /**
@@ -37,7 +36,7 @@ public class MyLinkedListQueue<E> implements MyQueue<E> {
      */
     @Override
     public int size() {
-        return this.list.size();
+        return this.deque.size();
     }
 
     /**
@@ -47,7 +46,7 @@ public class MyLinkedListQueue<E> implements MyQueue<E> {
      */
     @Override
     public E first() {
-        return this.list.getFirst();
+        return this.deque.peekFirst();
     }
 
     /**
@@ -57,7 +56,7 @@ public class MyLinkedListQueue<E> implements MyQueue<E> {
      */
     @Override
     public void enqueue(E value) {
-        this.list.addLast(value);
+        this.deque.addLast(value);
     }
 
     /**
@@ -67,9 +66,7 @@ public class MyLinkedListQueue<E> implements MyQueue<E> {
      */
     @Override
     public E dequeue() {
-        E first = this.list.getFirst();
-        this.list.removeFirst();
-        return first;
+        return this.deque.pollFirst();
     }
 
     /**
@@ -80,11 +77,11 @@ public class MyLinkedListQueue<E> implements MyQueue<E> {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
-        for (int index = 0; index < list.size(); index++) {
-            string.append(list.get(index));
-            if (index != list.size() - 1) {
-                string.append(" -> ");
-            }
+        for (E element : deque) {
+            string.append(element).append(" -> ");
+        }
+        if (string.length() > 0) {
+            string.setLength(string.length() - 4); // Remove trailing " -> "
         }
         return string.toString();
     }
