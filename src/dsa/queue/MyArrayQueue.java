@@ -4,10 +4,12 @@ public class MyArrayQueue<E> implements MyQueue<E> {
     private static final int DEFAULT_CAPACITY = 10;
     private E[] array;
     private int size;
+    private int first;
 
     public MyArrayQueue() {
         this.array = (E[]) new Object[DEFAULT_CAPACITY];
         this.size = 0;
+        this.first = 0;
     }
 
     /**
@@ -47,7 +49,7 @@ public class MyArrayQueue<E> implements MyQueue<E> {
      */
     @Override
     public E first() {
-        return this.array[0];
+        return this.array[this.first];
     }
 
     /**
@@ -71,9 +73,10 @@ public class MyArrayQueue<E> implements MyQueue<E> {
      */
     @Override
     public E dequeue() {
-        E first = this.array[0];
+        E first = this.array[this.first];
         this.size--;
-        this.array[0] = null;
+        this.array[this.first] = null;
+        this.first++;
         return first;
     }
 
@@ -85,9 +88,9 @@ public class MyArrayQueue<E> implements MyQueue<E> {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder();
-        for (int index = 0; index < this.size; index++) {
+        for (int index = this.first; index < this.size + this.first; index++) {
             string.append(this.array[index]);
-            if (index != this.size - 1) {
+            if (index != this.size + this.first - 1) {
                 string.append(" -> ");
             }
         }

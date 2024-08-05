@@ -73,10 +73,8 @@ public class MyArrayList<E> implements MyList<E> {
             enlarge();
         }
 
-        E[] rightArray = (E[]) new Object[this.size - index];
-        System.arraycopy(this.array, index, rightArray, 0, rightArray.length);
+        System.arraycopy(this.array, index, this.array, index + 1, this.size - index);
         this.array[index] = key;
-        System.arraycopy(rightArray, 0, array, index + 1, rightArray.length);
         this.size++;
     }
 
@@ -134,17 +132,16 @@ public class MyArrayList<E> implements MyList<E> {
     @Override
     public void remove(int index) {
         checkBoundaries(index);
+
         if (isEmpty()) {
             throw new ArrayStoreException("The list is empty");
-        } else {
-            E[] newArray = (E[]) new Object[this.size - 1];
-            System.arraycopy(this.array, 0, newArray, 0, index);
-            System.arraycopy(this.array, index + 1, newArray,
-                    index, newArray.length - index);
-            this.array = newArray;
-            this.size--;
         }
+
+        System.arraycopy(this.array, index + 1, this.array, index, this.size - index - 1);
+        this.size--;
+        this.array[this.size] = null;
     }
+
 
     /**
      * Returns a string representation of the list.

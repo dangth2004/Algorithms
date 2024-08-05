@@ -65,10 +65,10 @@ public class LinkedListNode<E> {
     /**
      * Sets the key stored in the node.
      *
-     * @param value the new key to be stored in the node
+     * @param key the new key to be stored in the node
      */
-    public void setKey(E value) {
-        this.key = value;
+    public void setKey(E key) {
+        this.key = key;
     }
 
     /**

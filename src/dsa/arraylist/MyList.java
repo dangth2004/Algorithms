@@ -4,8 +4,6 @@ package dsa.arraylist;
  * Interface for a generic array list.
  *
  * @param <E> the type of elements in this list
- * @author dangth2004
- * @since 2024-07-30
  */
 public interface MyList<E> {
     /**
@@ -22,7 +20,6 @@ public interface MyList<E> {
      */
     boolean isEmpty();
 
-
     /**
      * Adds a new value at the end of the list.
      *
@@ -36,12 +33,12 @@ public interface MyList<E> {
      *
      * @param key   the value to be inserted
      * @param index the index at which the new value is to be inserted
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index > size())
      */
     void insert(E key, int index);
 
     /**
-     * Searches for the index the specified value.
+     * Searches for the index of the specified value.
      *
      * @param key the value to search for
      * @return the index of the specified value, or -1 if not found
@@ -52,9 +49,9 @@ public interface MyList<E> {
      * Returns the value at the specified index.
      * Index starts from 0.
      *
-     * @param index the index of the value is to be returned
+     * @param index the index of the value to be returned
      * @return the value at the specified index
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size())
      */
     E get(int index);
 
@@ -72,7 +69,7 @@ public interface MyList<E> {
      * Index starts from 0.
      *
      * @param index the index of the value to be removed
-     * @throws IndexOutOfBoundsException if the index is out of range
+     * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size())
      */
     void remove(int index);
 }
