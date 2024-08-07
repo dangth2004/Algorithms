@@ -19,7 +19,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public int size() {
-        return 0;
+        return this.size;
     }
 
     /**
@@ -29,7 +29,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return this.size == 0;
     }
 
     /**
@@ -39,7 +39,15 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void add(E key) {
-
+        if (isEmpty()) {
+            this.head = new MyLinkedListNode<>(key, this.tail, null);
+            this.tail.setPrevious(this.head);
+        } else {
+            MyLinkedListNode<E> newNode = new MyLinkedListNode<>(key, null, this.tail);
+            this.tail.setNext(newNode);
+            this.tail = newNode;
+        }
+        this.size++;
     }
 
     /**
@@ -52,7 +60,18 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void add(E key, int index) {
-
+        checkBoundaries(index);
+        if (isEmpty()) {
+            this.head = new MyLinkedListNode<>(key, this.tail, null);
+            this.tail.setPrevious(this.head);
+        } else {
+            MyLinkedListNode<E> node = nodeAtIndex(index);
+            MyLinkedListNode<E> nextNode = node.getNext();
+            MyLinkedListNode<E> newNode = new MyLinkedListNode<>(key, nextNode, node);
+            node.setNext(newNode);
+            nextNode.setPrevious(newNode);
+        }
+        this.size++;
     }
 
     /**
@@ -62,7 +81,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void addFirst(E key) {
-
+        add(key, 0);
     }
 
     /**
@@ -72,7 +91,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void addLast(E key) {
-
+        add(key);
     }
 
     /**
@@ -83,6 +102,13 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public boolean contains(E key) {
+        MyLinkedListNode<E> node = this.head;
+        while (node.getNext() != null) {
+            if (node.getKey().equals(key)) {
+                return true;
+            }
+            node = node.getNext();
+        }
         return false;
     }
 
@@ -96,7 +122,8 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public E get(int index) {
-        return null;
+        checkBoundaries(index);
+        return nodeAtIndex(index).getKey();
     }
 
     /**
@@ -106,7 +133,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public E getFirst() {
-        return null;
+        return this.head.getKey();
     }
 
     /**
@@ -116,7 +143,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public E getLast() {
-        return null;
+        return this.tail.getKey();
     }
 
     /**
@@ -128,7 +155,8 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void set(E key, int index) {
-
+        checkBoundaries(index);
+        nodeAtIndex(index).setKey(key);
     }
 
     /**
@@ -214,11 +242,19 @@ public class MyLinkedList<E> implements MyList<E> {
     private MyLinkedListNode<E> nodeAtIndex(int index) {
         checkBoundaries(index);
 
-        MyLinkedListNode<E> node = this.head;
-        for (int i = 0; i < index; i++) {
-            node = node.getNext();
+        if (index < this.size / 2) {
+            MyLinkedListNode<E> node = this.head;
+            for (int i = 0; i < index; i++) {
+                node = node.getNext();
+            }
+            return node;
+        } else {
+            MyLinkedListNode<E> node = this.tail;
+            for (int i = 0; i < index; i++) {
+                node = node.getPrevious();
+            }
+            return node;
         }
-        return node;
     }
 
 
