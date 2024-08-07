@@ -282,14 +282,14 @@ public class MyArrayList<E> implements MyList<E> {
     @Override
     public String toString() {
         if (isEmpty()) {
-            return "The list is empty";
+            return "[]";
         }
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         for (int index = 0; index < this.size; index++) {
             sb.append(array[index]);
             if (index < this.size - 1) {
-                sb.append(" -> ");
+                sb.append(", ");
             }
         }
         sb.append(']');
