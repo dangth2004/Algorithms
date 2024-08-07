@@ -6,9 +6,9 @@ package dsa.list;
  * @param <E> the type of element held in this node
  */
 public class MyLinkedListNode<E> {
+    private E key;
     private MyLinkedListNode<E> next;
     private MyLinkedListNode<E> previous;
-    private E key;
 
     /**
      * Constructs a new node with the specified key.
@@ -25,8 +25,8 @@ public class MyLinkedListNode<E> {
     /**
      * Constructs a new node with the specified key, next node, and previous node.
      *
-     * @param key the element to be stored in this node
-     * @param next the next node in the list
+     * @param key      the element to be stored in this node
+     * @param next     the next node in the list
      * @param previous the previous node in the list
      */
     public MyLinkedListNode(E key, MyLinkedListNode<E> next, MyLinkedListNode<E> previous) {
