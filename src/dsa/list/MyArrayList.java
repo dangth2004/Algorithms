@@ -19,6 +19,12 @@ public class MyArrayList<E> implements MyList<E> {
         this.size = 0;
     }
 
+    /**
+     * Constructs an empty list with the specified initial capacity.
+     *
+     * @param capacity the initial capacity of the list
+     * @throws IllegalArgumentException if the specified capacity is negative
+     */
     @SuppressWarnings("unchecked")
     public MyArrayList(int capacity) {
         if (capacity < 0) {
@@ -287,7 +293,7 @@ public class MyArrayList<E> implements MyList<E> {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         for (int index = 0; index < this.size; index++) {
-            sb.append(array[index]);
+            sb.append(this.array[index]);
             if (index < this.size - 1) {
                 sb.append(", ");
             }
