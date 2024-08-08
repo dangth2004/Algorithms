@@ -38,7 +38,15 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void add(E key) {
-
+        if (isEmpty()) {
+            this.head = new MyLinkedListNode<>(key);
+            this.tail = this.head;
+        } else {
+            MyLinkedListNode<E> newNode = new MyLinkedListNode<>(key, null, this.tail);
+            this.tail.setNext(newNode);
+            this.tail = newNode;
+        }
+        this.size++;
     }
 
     /**
@@ -51,7 +59,32 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void add(E key, int index) {
-
+        if (index < 0 || index > this.size) {
+            throw new IndexOutOfBoundsException("Invalid index");
+        }
+        if (index == 0) {
+            MyLinkedListNode<E> newNode = new MyLinkedListNode<>(key, this.head, null);
+            if (this.head != null) {
+                this.head.setPrevious(newNode);
+            }
+            this.head = newNode;
+            if (isEmpty()) {
+                this.tail = newNode;
+            }
+        } else if (index == this.size) {
+            MyLinkedListNode<E> newNode = new MyLinkedListNode<>(key, null, this.tail);
+            if (this.tail != null) {
+                this.tail.setNext(newNode);
+            }
+            this.tail = newNode;
+        } else {
+            MyLinkedListNode<E> prevNode = nodeAtIndex(index - 1);
+            MyLinkedListNode<E> nextNode = prevNode.getNext();
+            MyLinkedListNode<E> newNode = new MyLinkedListNode<>(key, nextNode, prevNode);
+            prevNode.setNext(newNode);
+            nextNode.setPrevious(newNode);
+        }
+        this.size++;
     }
 
     /**
@@ -61,7 +94,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void addFirst(E key) {
-
+        add(key, 0);
     }
 
     /**
@@ -71,7 +104,7 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void addLast(E key) {
-
+        add(key, this.size);
     }
 
     /**
