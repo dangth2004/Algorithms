@@ -1,10 +1,18 @@
 package dsa.list;
 
+/**
+ * A doubly linked list implementation of the {@code MyList} interface.
+ *
+ * @param <E> the type of elements in this list
+ */
 public class MyLinkedList<E> implements MyList<E> {
     private MyLinkedListNode<E> head;
     private MyLinkedListNode<E> tail;
     private int size;
 
+    /**
+     * Constructs an empty linked list.
+     */
     public MyLinkedList() {
         this.head = null;
         this.tail = null;
@@ -185,7 +193,34 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public void remove(int index) {
-
+        checkBoundaries(index);
+        checkEmpty();
+        if (index == 0) {
+            this.head = this.head.getNext();
+            if (this.head != null) {
+                this.head.setPrevious(null);
+            } else {
+                this.tail = null;
+            }
+        } else if (index == this.size - 1) {
+            this.tail = this.tail.getPrevious();
+            if (this.tail != null) {
+                this.tail.setNext(null);
+            } else {
+                this.head = null;
+            }
+        } else {
+            MyLinkedListNode<E> node = nodeAtIndex(index);
+            MyLinkedListNode<E> nextNode = node.getNext();
+            MyLinkedListNode<E> prevNode = node.getPrevious();
+            node.setNext(null);
+            node.setPrevious(null);
+            prevNode.setNext(nextNode);
+            if (nextNode != null) {
+                nextNode.setPrevious(prevNode);
+            }
+        }
+        this.size--;
     }
 
     /**
@@ -195,7 +230,10 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public E removeFirst() {
-        return null;
+        checkEmpty();
+        MyLinkedListNode<E> node = this.head;
+        remove(0);
+        return node.getKey();
     }
 
     /**
@@ -205,7 +243,10 @@ public class MyLinkedList<E> implements MyList<E> {
      */
     @Override
     public E removeLast() {
-        return null;
+        checkEmpty();
+        MyLinkedListNode<E> node = this.tail;
+        remove(this.size - 1);
+        return node.getKey();
     }
 
     /**
