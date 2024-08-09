@@ -84,8 +84,7 @@ public class MyArrayList<E> implements MyList<E> {
         if (this.size == this.array.length) {
             enlarge();
         }
-        System.arraycopy(this.array, index, this.array,
-                index + 1, this.size - index);
+        System.arraycopy(this.array, index, this.array, index + 1, this.size - index);
         this.array[index] = key;
         this.size++;
     }
@@ -187,8 +186,7 @@ public class MyArrayList<E> implements MyList<E> {
     public void remove(int index) {
         checkEmpty();
         checkBoundaries(index);
-        System.arraycopy(this.array, index + 1,
-                this.array, index, this.size - index - 1);
+        System.arraycopy(this.array, index + 1, this.array, index, this.size - index - 1);
         this.size--;
         this.array[this.size] = null;
     }
