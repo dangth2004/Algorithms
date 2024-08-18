@@ -44,5 +44,5 @@ public interface MyStack<E> {
      * @return the element at the top of the stack
      * @throws java.util.EmptyStackException if the stack is empty
      */
-    E top();
+    E peek();
 }

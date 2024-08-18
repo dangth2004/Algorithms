@@ -2,23 +2,20 @@ package dsa.stack;
 
 import java.util.EmptyStackException;
 
-/**
- * @param <E> the type of elements in this stack
- * @author dangth2004
- * @since 2024-07-30
- * <p>
- * Implementation of a stack using a linked list.
- */
 public class MyArrayStack<E> implements MyStack<E> {
     private static final int DEFAULT_CAPACITY = 10;
-    private E[] array;
+    private E[] stack;
     private int size;
 
-    /**
-     * Constructs an empty stack.
-     */
+    @SuppressWarnings("unchecked")
     public MyArrayStack() {
-        this.array = (E[]) new Object[DEFAULT_CAPACITY];
+        this.stack = (E[]) new Object[DEFAULT_CAPACITY];
+        this.size = 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    public MyArrayStack(int capacity) {
+        this.stack = (E[]) new Object[capacity];
         this.size = 0;
     }
 
@@ -49,12 +46,7 @@ public class MyArrayStack<E> implements MyStack<E> {
      */
     @Override
     public void push(E key) {
-        if (this.size == this.array.length) {
-            enlarge();
-        }
 
-        this.array[this.size] = key;
-        this.size++;
     }
 
     /**
@@ -65,14 +57,7 @@ public class MyArrayStack<E> implements MyStack<E> {
      */
     @Override
     public E pop() {
-        if (isEmpty()) {
-            throw new EmptyStackException();
-        }
-
-        this.size--;
-        E top = this.array[this.size];
-        this.array[this.size] = null;
-        return top;
+        return null;
     }
 
     /**
@@ -82,37 +67,7 @@ public class MyArrayStack<E> implements MyStack<E> {
      * @throws EmptyStackException if the stack is empty
      */
     @Override
-    public E top() {
-        if (isEmpty()) {
-            throw new EmptyStackException();
-        }
-
-        return this.array[this.size - 1];
-    }
-
-    /**
-     * Returns a string representation of the stack.
-     *
-     * @return a string representation of the stack
-     */
-    @Override
-    public String toString() {
-        StringBuilder string = new StringBuilder();
-        for (int index = 0; index < this.size; index++) {
-            string.append(this.array[index]);
-            if (index != this.size - 1) {
-                string.append(" -> ");
-            }
-        }
-        return string.toString();
-    }
-
-    /**
-     * Doubles the capacity of the array when it is full.
-     */
-    private void enlarge() {
-        E[] newArray = (E[]) new Object[2 * this.array.length];
-        System.arraycopy(array, 0, newArray, 0, this.size);
-        this.array = newArray;
+    public E peek() {
+        return null;
     }
 }
