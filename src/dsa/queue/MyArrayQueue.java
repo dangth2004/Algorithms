@@ -7,12 +7,30 @@ public class MyArrayQueue<E> implements MyQueue<E> {
     private int first;
     private int last;
 
+    /**
+     * Constructs an empty queue.
+     */
     @SuppressWarnings("unchecked")
     public MyArrayQueue() {
         this.array = (E[]) new Object[DEFAULT_CAPACITY];
         this.size = 0;
         this.first = 0;
         this.last = 0;
+    }
+
+    /**
+     * Constructs an empty queue with given capacity
+     *
+     * @param capacity the initial capacity of the list
+     * @throws IllegalArgumentException if the specified capacity is negative
+     */
+    @SuppressWarnings("unchecked")
+    public MyArrayQueue(int capacity) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Illegal Capacity: " + capacity);
+        }
+        this.array = (E[]) new Object[capacity];
+        this.size = 0;
     }
 
     /**

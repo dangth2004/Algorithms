@@ -18,9 +18,15 @@ public class MyArrayStack<E> implements MyStack<E> {
 
     /**
      * Constructs an empty stack with given capacity
+     *
+     * @param capacity the initial capacity of the list
+     * @throws IllegalArgumentException if the specified capacity is negative
      */
     @SuppressWarnings("unchecked")
     public MyArrayStack(int capacity) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Illegal Capacity: " + capacity);
+        }
         this.array = (E[]) new Object[capacity];
         this.size = 0;
     }
